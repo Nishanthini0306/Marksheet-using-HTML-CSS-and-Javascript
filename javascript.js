@@ -3,7 +3,6 @@ function calculateTotalMarks() {
     const practicalMarks = document.querySelectorAll(".practical-marks");
     const totalMarksElements = document.querySelectorAll(".total-marks");
     const totalWordsElements = document.querySelectorAll(".total-words");
-
     let grandTotal = 0;
 
     for (let i = 0; i < theoryMarks.length; i++) {
@@ -30,23 +29,24 @@ function calculateTotalMarks() {
 function getWords(total) {
     const ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
     const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
-
+    const hund = ["", "One Hundred", "Two Hundred", "Three Hundred", "Four Hundred", "Five Hundred", "Six Hundred", "Seven Hundred", "Eight Hundred", "Nine Hundred"];
+  
     let words = "";
-
+  
     if (total === 0) {
-        words = "Zero Zero";
+      words = "Zero Zero";
     } else {
-        if (total < 20) {
-            words = ones[total];
-        } else {
-            words = tens[Math.floor(total / 10)] + (total % 10 != 0 ? " " + ones[total % 10] : "");
-        }
+      if (total < 20) {
+        words = ones[total];
+      } else if (total < 100) {
+        words = tens[Math.floor(total / 10)] + (total % 10 != 0 ? " " + ones[total % 10] : "");
+      } else {
+        words = hund[Math.floor(total / 100)] + (total % 100 != 0 ? " " + getWords(total % 100) : "");
+      }
     }
-
-    return words + " " + ones[Math.floor(total / 100)] + " Hundred";
-}
-
-// Function to calculate result, percentage, and grade
+  
+    return words;
+  }
 function calculateResult() {
     const grandTotal = parseInt(document.getElementById("grand-total").textContent) || 0;
     const subjectOffered = parseInt(document.getElementById("subject-offered").value) || 8; // Default value
